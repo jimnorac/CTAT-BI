@@ -6,46 +6,49 @@ import os
 from datetime import datetime,date,timedelta
 from CTAT_BI_Functions import (get_eTime, get_hour,get_airport,get_position,get_eTime,get_hh_mm,get_LTime,get_LTime2)
 
-DriveIn = "J"                              # DriveIn   FTP\AcHistory-XXX
-DriveOut = "Z"                             # DriveOut  CTAT_BI\Position-XXX
+DriveIn = "D"                              # DriveIn   FTP\AcHistory-XXX
+DriveOut = "D"                             # DriveOut  CTAT_BI\Position-XXX
 b_days=int(3)                              # default b_days value                            
 #base_name = "File Modified Date"          # default base_name option is File Modified Date  
 base_name = "Date in the File Name"        # Use this one when creating baseline to start from date in file name not the file modified date
 
-header_names = ['Callsign','Date','Time','UTC_Date','UTC_Time','Category','Type','Msg','Rules','Airport','Alt','Bcn','Scr1','Scr2','ADE','Psn','Position','APO','Twr','Rdr','Area','Airspace',\
-                'Entry','Exit','Hdg','Spd','RY','WC','TA','X','Y','Fnct','S1','S2','S3','F1','F2','X2','AA','CM','M8','M9','M2','sTime','eTime','eTime2','60Min','30Min','15Min','Year','Month','Day',\
-                'Leg','Leg_Time','Leg_Time2','hTime','hTime2','end60','end30','end15']
+header_names = ['Callsign','Date','Time','UTC_Date','UTC_Time','Category','Type','Msg','Rules','Airport','Alt','Bcn','Scr1','Scr2','ADE','Psn','Position','APO','Twr',\
+                'Rdr','Area','Airspace','Entry','Exit','Hdg','Spd','RY','WC','TA','X','Y','Fnct','S1','S2','S3','F1','F2','X2','AA','CM','M8','M9','M2','sTime','eTime',\
+                'eTime2','60Min','30Min','15Min','Year','Month','Day','Leg','Leg_Time','Leg_Time2','hTime','hTime2','end60','end30','end15']
 
-site = ['A11','A80','A90','ABE','ABI','ABQ','ACT','ACY','AGS','ALB','ALO','AMA','ASE','AUS','AVL','AVP','AZO','BFL','BGM','BGR','BHM','BIL','BIS','BNA','BOI','BTR','BTV','BUF',\
-        'C90','CAE','CHA','CHS','CID','CKB','CLE','CLT','CMH','CMI','COS','CPR','CRP','CRW','CVG','D01','D10','D21','DAB','DLH','DSM','ELM','ELP','EUG','EVV','F11','FAI','FAR',\
-        'FAT','FAY','FLO','FSD','FSM','FWA','GEG','GGG','GPT','GRB','GSO','GSP','GTF','HSV','HTS','HUF','I90','ICT','ILM','IND','JAX','L30','LBB','LCH','LEX','LFT','LIT','M03',\
-        'M98','MAF','MCI','MDT','MGM','MIA','MKE','MLI','MLU','MOB','MSN','MSY','MWH','MYR','N90','NCT','OKC','ORF','P31','P50','P80','PCT','PHL','PIT','PVD','PWM','R90','RDG',\
-        'RDU','RFD','ROA','ROC','ROW','RST','RSW','S46','S56','SAT','SAV','SBA','SBN','SCT','SDF','SGF','SHV','SUX','SYR','T75','TLH','TOL','TPA','TRI','TUL','TYS','U90','Y90','YNG']
-site = ['A11']        
+site = ['A11','A80','A90','ABE','ABI','ABQ','ACT','ACY','AGS','ALB','ALO','AMA','ASE','AUS','AVL','AVP','AZO','BFL','BGM','BGR','BHM','BIL','BIS','BNA','BOI','BTR','BTV',\
+        'BUF','C90','CAE','CHA','CHS','CID','CKB','CLE','CLT','CMH','CMI','COS','CPR','CRP','CRW','CVG','D01','D10','D21','DAB','DLH','DSM','ELM','ELP','EUG','EVV','F11',\
+        'FAI','FAR','FAT','FAY','FLO','FSD','FSM','FWA','GEG','GGG','GPT','GRB','GSO','GSP','GTF','HSV','HTS','HUF','I90','ICT','ILM','IND','JAN','JAX','L30','LBB','LCH',\
+        'LEX','LFT','LIT','M03','M98','MAF','MCI','MDT','MGM','MIA','MKE','MLI','MLU','MOB','MSN','MSY','MWH','MYR','N90','NCT','OKC','ORF','P31','P50','P80','PBI','PCT',\
+        'PHL','PIT','PVD','PWM','R90','RDG','RDU','RFD','ROA','ROC','ROW','RST','RSW','S46','S56','SAT','SAV','SBA','SBN','SCT','SDF','SGF','SHV','SUX','SYR','T75','TLH',\
+        'TOL','TPA','TRI','TUL','TYS','U90','Y90','YNG']
+site = ['A11','N90','PWM']
+
+
 lsite = len(site)
 
 #  Comment this out to eliminate User input   select Number of Days and/or Single Site
 # ###############################################################################################################
-while True:
-  try:  
-    x_days = int(input("Select Enter to process 3 Days       or    Enter the Number of Back Days to process:  " ))
-    if x_days >=1 and x_days <= 1500:
-      b_days = int(x_days)
-      break
-  except:
-    break
+# while True:
+#   try:  
+#     x_days = int(input("Select Enter to process 3 Days       or    Enter the Number of Back Days to process:  " ))
+#     if x_days >=1 and x_days <= 1500:
+#       b_days = int(x_days)
+#       break
+#   except:
+#     break
    
-while True:
-  try:  
-    xsite = (input("Select Enter to process ALL Sites    or    Enter the 3 alpha/numeric site ID:          " ))        
-    if len(xsite) == 3:   
-      site = [xsite[0]+xsite[1]+xsite[2]]
-      lsite = 0  
-      break
-  except:
-    break
-  else:
-    break
+# while True:
+#   try:  
+#     xsite = (input("Select Enter to process ALL Sites    or    Enter the 3 alpha/numeric site ID:          " ))        
+#     if len(xsite) == 3:   
+#       site = [xsite[0]+xsite[1]+xsite[2]]
+#       lsite = 0  
+#       break
+#   except:
+#     brea
+#   else:
+#     break
 # #################################################################################################################
 
 i=int(0)                                                                           # set counter to zero to look at all facilities
@@ -84,12 +87,12 @@ while i < len(site):
       mmonth = m_time_s[5]+m_time_s[6]                                  #                                Month
       mday = m_time_s[8]+m_time_s[9]                                    #                                Day of Week     
       mdate = mmonth+'-'+mday+'-'+myear                                 # string mm-dd-yyyy
-      m_date = datetime.strptime(mdate, "%m-%d-%Y").date()              # date class YYYY-MM-DD
+      m_date = datetime.strptime(mdate, "%m-%d-%Y").date()              # date class YYYY-MM-DD      
       base_date = m_date                                                # account for loading base_date using either file modified data or date stripped from file name
       if base_name == "Date in the File Name":                          # set the print screen to display the type base date selected
         base_date = file_date    
       if base_date >= back_date:                                        # Continue when file or modified date is not more that b_days before current date  
-            with open(in_file, 'r') as csv_file:                           # read all files that passed date check from if file_date or modified  >= back_date:
+            with open(in_file, 'r') as csv_file:                           # read all files that passed date check from if file_date or modified  >= back_date:                
                 df = pd.read_csv(csv_file,header=None,skiprows=1,names=header_names,low_memory=False)
                 df.dropna(axis='index',how = 'any', subset=['Callsign','Category','Rules', 'ADE'],inplace = True)    # drop row with Na or NaN in Callsign Category Rules or ADE          
                 df['sTime'] = df['Time']                                      # Load Data Frame sTime with Time
