@@ -17,34 +17,34 @@ header_names = ['Callsign','Date','Time','UTC_Date','UTC_Time','Category','Type'
 
 site = ['A11','A80','A90','ABE','ABI','ABQ','ACT','ACY','AGS','ALB','ALO','AMA','ASE','AUS','AVL','AVP','AZO','BFL','BGM','BGR','BHM','BIL','BIS','BNA','BOI','BTR','BTV',\
         'BUF','C90','CAE','CHA','CHS','CID','CKB','CLE','CLT','CMH','CMI','COS','CPR','CRP','CRW','CVG','D01','D10','D21','DAB','DLH','DSM','ELM','ELP','EUG','EVV','F11',\
-        'FAI','FAR','FAT','FAY','FLO','FSD','FSM','FWA','GEG','GGG','GPT','GRB','GSO','GSP','GTF','HSV','HTS','HUF','I90','ICT','ILM','IND','JAX','L30','LBB','LCH','LEX',\
-        'LFT','LIT','M03','M98','MAF','MCI','MDT','MGM','MIA','MKE','MLI','MLU','MOB','MSN','MSY','MWH','MYR','N90','NCT','OKC','ORF','P31','P50','P80','PCT','PHL','PIT',\
-        'PVD','PWM','R90','RDG','RDU','RFD','ROA','ROC','ROW','RST','RSW','S46','S56','SAT','SAV','SBA','SBN','SCT','SDF','SGF','SHV','SUX','SYR','T75','TLH','TOL','TPA',\
-        'TRI','TUL','TYS','U90','Y90','YNG']
+        'FAI','FAR','FAT','FAY','FLO','FSD','FSM','FWA','GEG','GGG','GPT','GRB','GSO','GSP','GTF','HSV','HTS','HUF','I90','ICT','ILM','IND','JAN','JAX','L30','LBB','LCH',\
+        'LEX','LFT','LIT','M03','M98','MAF','MCI','MDT','MGM','MIA','MKE','MLI','MLU','MOB','MSN','MSY','MWH','MYR','N90','NCT','OKC','ORF','P31','P50','P80','PBI','PCT',\
+        'PHL','PIT','PVD','PWM','R90','RDG','RDU','RFD','ROA','ROC','ROW','RST','RSW','S46','S56','SAT','SAV','SBA','SBN','SCT','SDF','SGF','SHV','SUX','SYR','T75','TLH',\
+        'TOL','TPA','TRI','TUL','TYS','U90','Y90','YNG']
 lsite = len(site)
 
 #  Comment this out to eliminate User input   select Number of Days and/or Single Site
 # ###############################################################################################################
-while True:
-  try:  
-    x_days = int(input("Select Enter to process 3 Days       or    Enter the Number of Back Days to process:  " ))
-    if x_days >=1 and x_days <= 1500:
-      b_days = int(x_days)
-      break
-  except:
-    break
+# while True:
+#   try:  
+#     x_days = int(input("Select Enter to process 3 Days       or    Enter the Number of Back Days to process:  " ))
+#     if x_days >=1 and x_days <= 1500:
+#       b_days = int(x_days)
+#       break
+#   except:
+#     break
    
-while True:
-  try:  
-    xsite = (input("Select Enter to process ALL Sites    or    Enter the 3 alpha/numeric site ID:          " ))        
-    if len(xsite) == 3:   
-      site = [xsite[0]+xsite[1]+xsite[2]]
-      lsite = 0  
-      break
-  except:
-    break
-  else:
-    break
+# while True:
+#   try:  
+#     xsite = (input("Select Enter to process ALL Sites    or    Enter the 3 alpha/numeric site ID:          " ))        
+#     if len(xsite) == 3:   
+#       site = [xsite[0]+xsite[1]+xsite[2]]
+#       lsite = 0  
+#       break
+#   except:
+#     break
+#   else:
+#     break
 # ###############################################################################################################    
 
 i=int(0)                                                                    # set counter to zero to look at all facilities
@@ -99,10 +99,10 @@ while i < len(site):
           df.drop(columns=['UTC_Date','UTC_Time','Alt','Bcn','APO','Hdg','Msg','Spd','WC','TA','X','Y','S3','F1','F2','X2','Fnct','AA','CM'],inplace=True)             
         
           zfilter= (df['Twr']=='A') | (df['Twr']== 'C') | (df['Twr'] == 'E') | (df['Twr']=='F') | (df['Twr']== 'G') | \
-                   (df['Rdr']=='A') | (df['Rdr']== 'B') | (df['Rdr'] == 'C') | (df['Rdr']=='E') | (df['Rdr']== 'G') | (df['Rdr']=='H') | (df['Rdr']== 'I') |\
-                   (df['Rdr'] == 'K') | (df['Rdr']=='M') | (df['Rdr']=='O')| \
-                   (df['Area']=='A') | (df['Area']== 'B') | (df['Area'] == 'C') | (df['Area']=='E') | (df['Area']== 'G') | (df['Area']=='H') | (df['Area']== 'I')\
-                   (df['Area'] == 'K') | (df['Area']=='M') | (df['Area']=='O')
+                   (df['Rdr']=='A') | (df['Rdr']== 'B') | (df['Rdr'] == 'C') | (df['Rdr']=='E') | (df['Rdr']== 'G') | (df['Rdr']=='H') | (df['Rdr']== 'I') | \
+                   (df['Rdr']=='K') | (df['Rdr']=='M') | (df['Rdr']=='O')| \
+                   (df['Area']=='A') | (df['Area']=='B') | (df['Area'] == 'C') | (df['Area']=='E') | (df['Area']== 'G') | (df['Area']=='H') | (df['Area']== 'I') | \
+                   (df['Area']=='K') | (df['Area']=='M') | (df['Area']=='O')
           df1 = df[zfilter]                                           # keep only rows where at least one count column TWR RDR or Area is not Null
           if len(df1) >= 1:                                           # only create file that have data beyond the header (can cause Power BI issues)
             df1.to_csv(out_path+out_file,index=False)                 # ouput prepped and written to csv file
